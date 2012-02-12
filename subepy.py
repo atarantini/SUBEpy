@@ -21,9 +21,10 @@ def verify_card_number(nro):
 	"""
 	Verify if a given complete card number is correct
 
-	@param	String	The 16 digit numbers of the card
-	@return Bool	True if card is valid, false otherwise
+	@param	String/Int	The 16 digit numbers of the card
+	@return Bool		True if card is valid, false otherwise
 	"""
+	if type(nro) is not str: nro = str(int)
 	if len(nro) is 16 and int(nro[-1]) is get_validator(nro[:-1]):
 			return True
 	return False
