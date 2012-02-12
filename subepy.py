@@ -16,21 +16,33 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import argparse
 
-from subepy import verify_card_number
+def verify_card_number(nro):
+	"""
+	Verify if a given complete card number is correct
 
-#
-# main
-#
-if __name__ == '__main__':
-	#parse command line arguments
-	parser = argparse.ArgumentParser(description='SUBEpy can validate SUBE intelligent card numbers')
-	parser.add_argument('number', type=str,  help='SUBE complete card number (16 digits)')
-	args = parser.parse_args()
-	number = args.number
+	@param	String	The 16 digit numbers of the card
+	@return Bool	True if card is valid, false otherwise
+	"""
+	if len(nro) is 16 and int(nro[-1]) is get_validator(nro[:-1]):
+			return True
+	return False
 
-	if verify_card_number(number):
-		print str(number), 'is a VALID card number'
-	else:
-		print str(number), 'is NOT a valid card number'
+def get_validator(nro):
+	"""
+	Get validator digit for a card number
+
+	@param	String	The 15 digit numbers of the card, without the validation digit
+	@return Int		The validation digit
+	"""
+	nros = [int(n) for n in list(nro)]
+	for i in range(len(nros)):
+		if i % 2 == 0:
+			if nros[i]*2 > 9:
+				nros[i] = nros[i]*2 - 9
+			else:
+				nros[i] = nros[i]*2
+	nrosum = sum(nros)
+	if nrosum % 10 != 0:
+		return 10 - nrosum % 10
+	return 0
