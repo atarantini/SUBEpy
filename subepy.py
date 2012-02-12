@@ -47,3 +47,9 @@ def get_validator(nro):
 	if nrosum % 10 != 0:
 		return 10 - nrosum % 10
 	return 0
+
+def random_card_number():
+	from random import randint
+
+	num = randint(100000000000000, 999999999999999)
+	return str(num)+str(get_validator(str(num)))
